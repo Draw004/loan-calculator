@@ -83,8 +83,8 @@
       <div class="step">
         <div class="step-title"><span>1</span><div><h3>Amount, rate and term</h3><p id="modeHelp">Enter the amount you plan to borrow, then set the annual interest rate and repayment term.</p></div></div>
         <div class="fields fields-2">
-          <label class="field" id="principalField"><span id="principalLabel">Loan amount</span><div class="money-input"><span class="currency-prefix">₹</span><input id="principal" type="number" min="0.01" max="1000000000" step="1000" value="500000" inputmode="decimal" /></div><small>Opening principal before interest and separately shown fees.</small></label>
-          <label class="field" id="targetPaymentField" hidden><span id="targetPaymentLabel">Target monthly EMI</span><div class="money-input"><span class="currency-prefix">₹</span><input id="targetPayment" type="number" min="0.01" max="100000000" step="100" value="12000" inputmode="decimal" /></div><small>Mathematical payment budget used to solve for the modeled principal. It is not lender eligibility.</small></label>
+          <label class="field" id="principalField"><span id="principalLabel">Loan amount</span><div class="money-input"><span class="currency-prefix" aria-hidden="true"></span><input id="principal" type="number" min="0.01" max="1000000000" step="1000" value="500000" inputmode="decimal" /></div><small>Opening principal before interest and separately shown fees.</small></label>
+          <label class="field" id="targetPaymentField" hidden><span id="targetPaymentLabel">Target monthly EMI</span><div class="money-input"><span class="currency-prefix" aria-hidden="true"></span><input id="targetPayment" type="number" min="0.01" max="100000000" step="100" value="12000" inputmode="decimal" /></div><small>Mathematical payment budget used to solve for the modeled principal. It is not lender eligibility.</small></label>
           <label class="field"><span>Annual interest rate</span><div class="input-suffix"><input id="annualRate" type="number" min="0" max="60" step="0.01" value="10" inputmode="decimal" /><span>% p.a.</span></div><small>Nominal annual rate divided by 12 for the monthly reducing-balance model.</small></label>
           <label class="field"><span>Loan term — years</span><div class="input-suffix"><input id="termYears" type="number" min="0" max="50" step="1" value="5" inputmode="numeric" /><span>years</span></div><small>Whole years. You can add 0–11 extra months.</small></label>
           <label class="field"><span>Additional months</span><div class="input-suffix"><input id="termMonths" type="number" min="0" max="11" step="1" value="0" inputmode="numeric" /><span>months</span></div><small>Total modeled term must be between 1 and 600 months.</small></label>
@@ -96,10 +96,10 @@
         <div class="advanced-body">
           <div class="fields fields-2 advanced-fields">
             <label class="field"><span>First payment date <em>optional</em></span><input id="firstPaymentDate" type="date" /><small>Used only to label payment dates and the modeled payoff date.</small></label>
-            <label class="field"><span>Fixed upfront fee</span><div class="money-input"><span class="currency-prefix">₹</span><input id="fixedFee" type="number" min="0" max="100000000" step="100" value="0" inputmode="decimal" /></div><small>Shown separately. It is not added to the loan principal.</small></label>
+            <label class="field"><span>Fixed upfront fee</span><div class="money-input"><span class="currency-prefix" aria-hidden="true"></span><input id="fixedFee" type="number" min="0" max="100000000" step="100" value="0" inputmode="decimal" /></div><small>Shown separately. It is not added to the loan principal.</small></label>
             <label class="field"><span>Processing / origination fee</span><div class="input-suffix"><input id="percentageFee" type="number" min="0" max="20" step="0.01" value="0" inputmode="decimal" /><span>%</span></div><small>Applied to modeled principal and kept separate from interest.</small></label>
-            <label class="field"><span>Extra monthly payment</span><div class="money-input"><span class="currency-prefix">₹</span><input id="extraMonthly" type="number" min="0" max="100000000" step="100" value="0" inputmode="decimal" /></div><small>Added after each scheduled payment. V1 does not model recasting.</small></label>
-            <label class="field"><span>One-time extra payment</span><div class="money-input"><span class="currency-prefix">₹</span><input id="oneTimeExtra" type="number" min="0" max="1000000000" step="100" value="0" inputmode="decimal" /></div><small>Applied after the scheduled payment in the selected payment month.</small></label>
+            <label class="field"><span>Extra monthly payment</span><div class="money-input"><span class="currency-prefix" aria-hidden="true"></span><input id="extraMonthly" type="number" min="0" max="100000000" step="100" value="0" inputmode="decimal" /></div><small>Added after each scheduled payment. This calculator does not model recasting.</small></label>
+            <label class="field"><span>One-time extra payment</span><div class="money-input"><span class="currency-prefix" aria-hidden="true"></span><input id="oneTimeExtra" type="number" min="0" max="1000000000" step="100" value="0" inputmode="decimal" /></div><small>Applied after the scheduled payment in the selected payment month.</small></label>
             <label class="field"><span>One-time payment month</span><div class="input-suffix"><input id="oneTimeMonth" type="number" min="1" max="600" step="1" value="12" inputmode="numeric" /><span>payment #</span></div><small>Must fall within the original loan term when a one-time extra payment is entered.</small></label>
           </div>
           <div class="advanced-note"><strong>Fees are not APR.</strong> Carrowmont shows entered fees separately and does not label a fee-inclusive rate as regulated APR.</div>
@@ -112,15 +112,15 @@
     <aside class="results-card" aria-labelledby="resultsHeading">
       <div class="eyebrow">MODELED RESULT</div>
       <h2 id="resultsHeading">Your loan snapshot</h2>
-      <div class="hero-result"><span id="heroResultLabel">Monthly EMI</span><strong id="heroResultValue">₹0</strong><small id="heroResultNote">For a fixed-rate reducing-balance loan.</small></div>
+      <div class="hero-result"><span id="heroResultLabel">Monthly EMI</span><strong id="heroResultValue">—</strong><small id="heroResultNote">For a fixed-rate reducing-balance loan.</small></div>
       <div class="result-grid">
-        <div class="metric"><span>Total interest</span><strong id="totalInterest">₹0</strong><small>Interest modeled across the repayment schedule</small></div>
-        <div class="metric"><span>Total repayment</span><strong id="totalRepayment">₹0</strong><small>Principal plus modeled interest; fees shown separately</small></div>
+        <div class="metric"><span>Total interest</span><strong id="totalInterest">—</strong><small>Interest modeled across the repayment schedule</small></div>
+        <div class="metric"><span>Total repayment</span><strong id="totalRepayment">—</strong><small>Principal plus modeled interest; fees shown separately</small></div>
         <div class="metric"><span>Payoff horizon</span><strong id="payoffHorizon">0 months</strong><small id="payoffDateNote">Based on the selected term and optional extra payments</small></div>
-        <div class="metric"><span>Entered fees</span><strong id="enteredFees">₹0</strong><small id="feesNote">Fixed fee plus percentage fee</small></div>
+        <div class="metric"><span>Entered fees</span><strong id="enteredFees">—</strong><small id="feesNote">Fixed fee plus percentage fee</small></div>
       </div>
-      <div class="real-value" id="extraSavingsCard" hidden><span>Extra-payment effect</span><strong id="interestSaved">₹0 interest saved</strong><small id="timeSaved">No modeled time saving.</small></div>
-      <div class="cost-strip"><span>Total cost including entered fees</span><strong id="totalCostIncludingFees">₹0</strong></div>
+      <div class="real-value" id="extraSavingsCard" hidden><span>Extra-payment effect</span><strong id="interestSaved">No extra-payment scenario</strong><small id="timeSaved">No modeled time saving.</small></div>
+      <div class="cost-strip"><span>Total cost including entered fees</span><strong id="totalCostIncludingFees">—</strong></div>
       <div class="actions-card">
         <button class="btn btn-primary" id="reportBtn" type="button">Generate Loan / EMI Report</button>
         <button class="btn btn-secondary" id="copySummaryBtn" type="button">Copy Summary</button>
@@ -161,7 +161,7 @@
       <div class="eyebrow">IMPORTANT CONTEXT</div>
       <h2>This is a planning model, not a lender quote.</h2>
       <p>Real lender figures can differ because of daily-interest conventions, payment dates, fees, variable rates, penalties, rounding and product-specific rules.</p>
-      <ul class="explain-list"><li>Country changes familiar terminology; currency changes units only and performs no FX conversion.</li><li>Entered fees remain separate from principal and interest.</li><li>Extra payments keep the scheduled payment unchanged; V1 does not model recasting.</li><li>No prepayment penalty is assumed automatically.</li><li>Reverse mode estimates mathematical principal only—not lender eligibility or approval.</li></ul>
+      <ul class="explain-list"><li>Country changes familiar terminology; currency changes units only and performs no FX conversion.</li><li>Entered fees remain separate from principal and interest.</li><li>Extra payments keep the scheduled payment unchanged; This calculator does not model recasting.</li><li>No prepayment penalty is assumed automatically.</li><li>Reverse mode estimates mathematical principal only—not lender eligibility or approval.</li></ul>
     </div>
   </div>
 </section>

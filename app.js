@@ -7,6 +7,7 @@
 
   let mode = 'payment';
   let lastResult = null;
+  let mycmTouched = false;
 
   const IDENTITIES = Object.freeze({
     IN: { tool:'EMI Calculator', payment:'Monthly EMI', target:'Target monthly EMI', cta:'Generate EMI / Loan Report' },
@@ -259,7 +260,13 @@
     renderHeadline(result);
     renderChart(result);
     renderTable(result);
+    if (mycmTouched) window.CarrowmontPlanSave?.offer?.('loan-emi');
   }
+
+
+  function loanPlanInput(){return stateFromUi();}
+  function applyMyCarrowmontPlan(scenario){const input=scenario?.input;if(!input||typeof input!=='object')return;mode=input.mode==='principal'?'principal':'payment';syncMode();['principal','targetPayment','annualRate','termYears','termMonths','firstPaymentDate','fixedFee','percentageFee','extraMonthly','oneTimeExtra','oneTimeMonth'].forEach(id=>{if(input[id]!==undefined&&$(id))$(id).value=input[id];});mycmTouched=false;render();}
+  function configureMyCarrowmontSave(){const bridge=window.CarrowmontPlanSave;if(!bridge?.register)return;bridge.register({journey:'loan-emi',label:'Loan / EMI plan',toolPath:'/loan-calculator/',anchor:'.results-card',getPlan:()=>{if(!mycmTouched||!lastResult)return null;const r=lastResult;return {journey:'loan-emi',label:`${identity().tool} plan`,toolPath:'/loan-calculator/',scenario:{input:loanPlanInput(),summary:{principal:r.principal,scheduledPayment:r.scheduledPayment,annualRate:r.state.annualRate,totalMonths:r.state.totalMonths,totalInterest:r.totalInterest,payoffMonths:r.payoffMonths}},profileFacts:{}};},applyPlan:applyMyCarrowmontPlan,signedInPrimaryLabel:'Save this loan plan to My Carrowmont',signedOutPrimaryLabel:'Save this loan plan to My Carrowmont'});}
 
   function setMode(nextMode) {
     mode = nextMode === 'principal' ? 'principal' : 'payment';
@@ -281,6 +288,7 @@
     $('oneTimeExtra').value = '0';
     $('oneTimeMonth').value = '12';
     syncMode();
+    mycmTouched = false;
     render();
   }
 
@@ -370,10 +378,10 @@
   }
 
   function bind() {
-    ['principal','targetPayment','annualRate','termYears','termMonths','fixedFee','percentageFee','extraMonthly','oneTimeExtra','oneTimeMonth'].forEach(id => $(id).addEventListener('input', render));
-    $('firstPaymentDate').addEventListener('change', render);
-    $('paymentModeBtn').addEventListener('click', () => setMode('payment'));
-    $('principalModeBtn').addEventListener('click', () => setMode('principal'));
+    ['principal','targetPayment','annualRate','termYears','termMonths','fixedFee','percentageFee','extraMonthly','oneTimeExtra','oneTimeMonth'].forEach(id => $(id).addEventListener('input', () => { mycmTouched = true; render(); }));
+    $('firstPaymentDate').addEventListener('change', () => { mycmTouched = true; render(); });
+    $('paymentModeBtn').addEventListener('click', () => { mycmTouched = true; setMode('payment'); });
+    $('principalModeBtn').addEventListener('click', () => { mycmTouched = true; setMode('principal'); });
     $('resetBtn').addEventListener('click', reset);
     $('copySummaryBtn').addEventListener('click', copySummary);
     $('csvBtn').addEventListener('click', downloadCsv);
@@ -395,6 +403,7 @@
   }
 
   populateLocaleControls();
+  configureMyCarrowmontSave();
   bind();
   consumeSharedLocale();
   syncMode();
